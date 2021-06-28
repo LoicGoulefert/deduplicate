@@ -1,0 +1,7 @@
+# base
+click
+vpype
+
+# dev/test
+pytest
+black
