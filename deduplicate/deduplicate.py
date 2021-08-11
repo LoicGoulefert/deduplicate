@@ -24,7 +24,7 @@ def deduplicate(
     lines: LineCollection,
     tolerance: float,
     progress_bar: bool,
-) -> vp.Document:
+) -> vp.LineCollection:
     """
     Remove duplicate lines.
 
@@ -37,16 +37,22 @@ def deduplicate(
         a LineCollection where duplicated lines were removed.
     """
 
+    # TODO: Si on a ligne 1 sur ligne 2, l1 < l2
+    # retirer la plus petite ligne
+
+    # Splitall
+    split_lines = LineCollection()
+    for line in lines:
+        split_lines.extend(
+            [line[i : i + 2] for i in range(len(line) - 1) if line[i] != line[i + 1]]
+        )
+
     lc = LineCollection()
-    line_arr = np.array([np.array(line) for line in lines.as_mls()])
+    line_arr = np.array([np.array(line) for line in split_lines.as_mls()])
     mask = np.zeros(len(line_arr), dtype=bool)
 
     for i, line in enumerate(tqdm(line_arr[:-1], disable=progress_bar)):
-        try:
-            reshaped = line.reshape(-1, 2, 2)
-        except ValueError:
-            raise ValueError("Use 'splitall' command before 'deduplicate'.")
-
+        reshaped = line.reshape(-1, 2, 2)
         mask[i + 1 :] |= np.all(
             np.isclose(reshaped, line_arr[i + 1 :], atol=tolerance), axis=(1, 2)
         )
