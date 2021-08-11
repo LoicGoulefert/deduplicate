@@ -1,11 +1,36 @@
 # deduplicate
 
-[`vpype`](https://github.com/abey79/vpype) plug-in to [_to be completed_]
+[`vpype`](https://github.com/abey79/vpype) plug-in to remove overlapping lines in SVG files.
+
+
+## Usage
+
+```
+Usage: vpype deduplicate [OPTIONS]
+
+  Remove duplicate lines.
+
+  Args:     
+    lines: LineCollection input
+    tolerance: maximum tolerance to consider 2 lines equal
+    progress_bar: flag, display a progress bar if set
+
+  Returns:
+    a LineCollection where duplicated lines were removed.
+
+Options:
+  -t, --tolerance LENGTH  Max distance between start and end point to consider
+                          a path closed(default: 0.01mm)
+
+  -p, --progress-bar      Display a progress bar
+  -l, --layer LAYERS      Target layer(s) or 'all'.
+  --help                  Show this message and exit.
+```
 
 
 ## Examples
 
-_to be completed_
+`vpype read file.svg deduplicate write output.svg`
 
 
 ## Installation
@@ -80,15 +105,6 @@ Commands:
   Plugins:
     deduplicate
 [...]
-```
-
-
-## Documentation
-
-The complete plug-in documentation is available directly in the CLI help:
-
-```bash
-$ vpype deduplicate --help
 ```
 
 
