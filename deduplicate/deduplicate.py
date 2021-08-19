@@ -9,7 +9,7 @@ from shapely.geometry import MultiLineString
 from tqdm import tqdm
 
 
-def _deduplicate_layer(lines, tolerance, progress_bar):
+def _deduplicate_layer(lines, tolerance, progress_bar, keep_duplicates):
     # Splitall lines into segments
     split_lines = LineCollection()
     for line in lines:
@@ -18,6 +18,7 @@ def _deduplicate_layer(lines, tolerance, progress_bar):
         )
 
     lc = LineCollection()
+    removed_lines = LineCollection()
     line_arr = np.array([np.array(line) for line in split_lines.as_mls()])
     mask = np.zeros(len(line_arr), dtype=bool)
 
@@ -33,10 +34,13 @@ def _deduplicate_layer(lines, tolerance, progress_bar):
             axis=(1, 2),
         )
 
+    if keep_duplicates:
+        removed_lines.extend(MultiLineString(list(line_arr[mask])))
+
     line_arr = line_arr[~mask]
     lc.extend(MultiLineString(list(line_arr)))
 
-    return lc
+    return lc, removed_lines
 
 
 @click.command()
@@ -58,9 +62,20 @@ def _deduplicate_layer(lines, tolerance, progress_bar):
     default="all",
     help="Target layer(s).",
 )
+@click.option(
+    "-k",
+    "--keep-duplicates",
+    is_flag=True,
+    default=False,
+    help="Keep removed duplicates in a separate layer",
+)
 @vp.global_processor
 def deduplicate(
-    document: vp.Document, tolerance: float, progress_bar: bool, layer: Union[int, List[int]]
+    document: vp.Document,
+    tolerance: float,
+    progress_bar: bool,
+    layer: Union[int, List[int]],
+    keep_duplicates: bool,
 ) -> vp.Document:
     """
     Remove duplicate lines.
@@ -76,10 +91,16 @@ def deduplicate(
 
     layer_ids = multiple_to_layer_ids(layer, document)
     new_document = document.empty_copy()
+    removed_layer_id = document.free_id()
 
     for lines, l_id in zip(document.layers_from_ids(layer_ids), layer_ids):
-        new_lines = _deduplicate_layer(lines, tolerance, progress_bar)
+        new_lines, removed_lines = _deduplicate_layer(
+            lines, tolerance, progress_bar, keep_duplicates
+        )
         new_document.add(new_lines, layer_id=l_id)
+
+        if keep_duplicates and not removed_lines.is_empty():
+            new_document.add(removed_lines, layer_id=removed_layer_id)
 
     return new_document
 
