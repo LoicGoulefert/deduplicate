@@ -10,20 +10,12 @@ Usage: vpype deduplicate [OPTIONS]
 
   Remove duplicate lines.
 
-  Args:     
-    lines: LineCollection input
-    tolerance: maximum tolerance to consider 2 lines equal
-    progress_bar: flag, display a progress bar if set
-
-  Returns:
-    a LineCollection where duplicated lines were removed.
-
 Options:
-  -t, --tolerance LENGTH  Max distance between start and end point to consider
-                          a path closed(default: 0.01mm)
-
-  -p, --progress-bar      Display a progress bar
-  -l, --layer LAYERS      Target layer(s) or 'all'.
+  -t, --tolerance LENGTH  Max distance between points to consider them equal
+                          (default: 0.01mm)
+  -p, --progress-bar      (flag) Display a progress bar
+  -l, --layer LAYERS      Target layer(s) (defaul: 'all')
+  -k, --keep-duplicates   (flag) Keep removed duplicates in a separate layer
   --help                  Show this message and exit.
 ```
 
