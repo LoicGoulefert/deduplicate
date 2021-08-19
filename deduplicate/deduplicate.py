@@ -49,25 +49,24 @@ def _deduplicate_layer(lines, tolerance, progress_bar, keep_duplicates):
     "--tolerance",
     type=LengthType(),
     default="0.01mm",
-    help="Max distance between start and end point to consider a path closed"
-    "(default: 0.01mm)",
+    help="Max distance between points to consider them equal (default: 0.01mm)",
 )
 @click.option(
-    "-p", "--progress-bar", is_flag=True, default=True, help="Display a progress bar"
+    "-p", "--progress-bar", is_flag=True, default=True, help="(flag) Display a progress bar"
 )
 @click.option(
     "-l",
     "--layer",
     type=vp.LayerType(accept_multiple=True),
     default="all",
-    help="Target layer(s).",
+    help="Target layer(s) (defaul: 'all')",
 )
 @click.option(
     "-k",
     "--keep-duplicates",
     is_flag=True,
     default=False,
-    help="Keep removed duplicates in a separate layer",
+    help="(flag) Keep removed duplicates in a separate layer",
 )
 @vp.global_processor
 def deduplicate(
@@ -77,17 +76,7 @@ def deduplicate(
     layer: Union[int, List[int]],
     keep_duplicates: bool,
 ) -> vp.Document:
-    """
-    Remove duplicate lines.
-
-    Args:
-        lines: LineCollection input
-        tolerance: maximum tolerance to consider 2 lines equal
-        progress_bar: flag, display a progress bar if set
-
-    Returns:
-        a LineCollection where duplicated lines were removed.
-    """
+    """Remove duplicate lines."""
 
     layer_ids = multiple_to_layer_ids(layer, document)
     new_document = document.empty_copy()
