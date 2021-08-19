@@ -1,10 +1,42 @@
+from typing import List, Union
 import click
 import vpype as vp
 import numpy as np
 from vpype import LengthType
+from vpype.layers import multiple_to_layer_ids
 from vpype.model import LineCollection
 from shapely.geometry import MultiLineString
 from tqdm import tqdm
+
+
+def _deduplicate_layer(lines, tolerance, progress_bar):
+    # Splitall lines into segments
+    split_lines = LineCollection()
+    for line in lines:
+        split_lines.extend(
+            [line[i : i + 2] for i in range(len(line) - 1) if line[i] != line[i + 1]]
+        )
+
+    lc = LineCollection()
+    line_arr = np.array([np.array(line) for line in split_lines.as_mls()])
+    mask = np.zeros(len(line_arr), dtype=bool)
+
+    for i, line in enumerate(tqdm(line_arr[:-1], disable=progress_bar)):
+        reshaped = line.reshape(-1, 2, 2)
+        # Matching start and end points
+        mask[i + 1 :] |= np.all(
+            np.isclose(reshaped, line_arr[i + 1 :], atol=tolerance), axis=(1, 2)
+        )
+        # Matching end and start points
+        mask[i + 1 :] |= np.all(
+            np.isclose(reshaped[:, ::-1, :], line_arr[i + 1 :], atol=tolerance),
+            axis=(1, 2),
+        )
+
+    line_arr = line_arr[~mask]
+    lc.extend(MultiLineString(list(line_arr)))
+
+    return lc
 
 
 @click.command()
@@ -19,12 +51,17 @@ from tqdm import tqdm
 @click.option(
     "-p", "--progress-bar", is_flag=True, default=True, help="Display a progress bar"
 )
-@vp.layer_processor
+@click.option(
+    "-l",
+    "--layer",
+    type=vp.LayerType(accept_multiple=True),
+    default="all",
+    help="Target layer(s).",
+)
+@vp.global_processor
 def deduplicate(
-    lines: LineCollection,
-    tolerance: float,
-    progress_bar: bool,
-) -> vp.LineCollection:
+    document: vp.Document, tolerance: float, progress_bar: bool, layer: Union[int, List[int]]
+) -> vp.Document:
     """
     Remove duplicate lines.
 
@@ -37,34 +74,14 @@ def deduplicate(
         a LineCollection where duplicated lines were removed.
     """
 
-    # TODO: Si on a ligne 1 sur ligne 2, l1 < l2
-    # retirer la plus petite ligne
+    layer_ids = multiple_to_layer_ids(layer, document)
+    new_document = document.empty_copy()
 
-    # Splitall
-    split_lines = LineCollection()
-    for line in lines:
-        split_lines.extend(
-            [line[i : i + 2] for i in range(len(line) - 1) if line[i] != line[i + 1]]
-        )
+    for lines, l_id in zip(document.layers_from_ids(layer_ids), layer_ids):
+        new_lines = _deduplicate_layer(lines, tolerance, progress_bar)
+        new_document.add(new_lines, layer_id=l_id)
 
-    lc = LineCollection()
-    line_arr = np.array([np.array(line) for line in split_lines.as_mls()])
-    mask = np.zeros(len(line_arr), dtype=bool)
-
-    for i, line in enumerate(tqdm(line_arr[:-1], disable=progress_bar)):
-        reshaped = line.reshape(-1, 2, 2)
-        mask[i + 1 :] |= np.all(
-            np.isclose(reshaped, line_arr[i + 1 :], atol=tolerance), axis=(1, 2)
-        )
-        mask[i + 1 :] |= np.all(
-            np.isclose(reshaped[:, ::-1, :], line_arr[i + 1 :], atol=tolerance),
-            axis=(1, 2),
-        )
-
-    line_arr = line_arr[~mask]
-    lc.extend(MultiLineString(list(line_arr)))
-
-    return lc
+    return new_document
 
 
 deduplicate.help_group = "Plugins"
