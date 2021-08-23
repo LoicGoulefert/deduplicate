@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<svg baseProfile="tiny" height="8.0cm" version="1.2" viewBox="0 0 302.3622047244094 302.3622047244094" width="8.0cm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <metadata>
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:source>vpype rect 0 0 3cm 3cm rect 3cm 0 3cm 3cm rect 0 3cm 3cm 3cm rect 3cm 3cm 3cm 3cm write --page-size 8cmx8cm --center squares.svg
+</dc:source>
+        <dc:date>2021-08-23T17:15:18.458309</dc:date>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs/>
+  <g fill="none" id="layer1" inkscape:groupmode="layer" inkscape:label="1" stroke="#00f" style="display:inline">
+    <polygon points="37.7953,37.7953 37.7953,151.1811 151.1811,151.1811 151.1811,37.7953"/>
+    <polygon points="151.1811,37.7953 151.1811,151.1811 264.5669,151.1811 264.5669,37.7953"/>
+    <polygon points="37.7953,151.1811 37.7953,264.5669 151.1811,264.5669 151.1811,151.1811"/>
+    <polygon points="151.1811,151.1811 151.1811,264.5669 264.5669,264.5669 264.5669,151.1811"/>
+  </g>
+</svg>

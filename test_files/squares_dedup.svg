@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<svg baseProfile="tiny" height="8.00000432cm" version="1.2" viewBox="0 0 302.362368 302.362368" width="8.00000432cm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <metadata>
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:source>vpype read squares.svg deduplicate -k write squares_dedup.svg
+</dc:source>
+        <dc:date>2021-08-23T17:17:26.914636</dc:date>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs/>
+  <g fill="none" id="layer1" inkscape:groupmode="layer" inkscape:label="1" stroke="#00f" style="display:inline">
+    <line x1="37.7953" x2="37.7953" y1="37.7953" y2="151.1812"/>
+    <line x1="37.7953" x2="151.1812" y1="151.1812" y2="151.1812"/>
+    <line x1="151.1812" x2="151.1812" y1="151.1812" y2="37.7953"/>
+    <line x1="151.1812" x2="37.7953" y1="37.7953" y2="37.7953"/>
+    <line x1="151.1812" x2="264.567" y1="151.1812" y2="151.1812"/>
+    <line x1="264.567" x2="264.567" y1="151.1812" y2="37.7953"/>
+    <line x1="264.567" x2="151.1812" y1="37.7953" y2="37.7953"/>
+    <line x1="37.7953" x2="37.7953" y1="151.1812" y2="264.567"/>
+    <line x1="37.7953" x2="151.1812" y1="264.567" y2="264.567"/>
+    <line x1="151.1812" x2="151.1812" y1="264.567" y2="151.1812"/>
+    <line x1="151.1812" x2="264.567" y1="264.567" y2="264.567"/>
+    <line x1="264.567" x2="264.567" y1="264.567" y2="151.1812"/>
+  </g>
+  <g fill="none" id="layer2" inkscape:groupmode="layer" inkscape:label="2" stroke="#080" style="display:inline">
+    <line x1="151.1812" x2="151.1812" y1="37.7953" y2="151.1812"/>
+    <line x1="151.1812" x2="37.7953" y1="151.1812" y2="151.1812"/>
+    <line x1="151.1812" x2="151.1812" y1="151.1812" y2="264.567"/>
+    <line x1="264.567" x2="151.1812" y1="151.1812" y2="151.1812"/>
+  </g>
+</svg>
