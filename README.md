@@ -34,6 +34,13 @@ vpype read squares.svg deduplicate -k write squares_dedup.svg
 
 
 
+The `-t` option controls the tolerance, which is the maximum distance 2 points are considered equal.
+
+Here is what `vpype read tangent_circles.svg deduplicate -k -t 0.2mm show` outputs with different tolerances:
+
+<img src="img/tangent_circles_tol.png">
+
+
 ## Installation
 
 See the [installation instructions](https://vpype.readthedocs.io/en/stable/install.html) for information on how
