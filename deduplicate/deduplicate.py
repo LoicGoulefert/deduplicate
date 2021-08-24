@@ -1,15 +1,19 @@
-from typing import List, Union
+from typing import List, Union, Tuple
 import click
 import vpype as vp
 import numpy as np
 from vpype import LengthType
 from vpype.layers import multiple_to_layer_ids
-from vpype.model import LineCollection
+from vpype.model import LineCollection, Document
 from shapely.geometry import MultiLineString
 from tqdm import tqdm
 
 
-def _deduplicate_layer(lines, tolerance, progress_bar, keep_duplicates):
+def _deduplicate_layer(
+    lines: LineCollection, tolerance: float, progress_bar: bool, keep_duplicates: bool
+) -> Tuple[LineCollection, LineCollection]:
+    """Deduplicate lines of a single layer."""
+
     # Splitall lines into segments
     split_lines = LineCollection()
     for line in lines:
@@ -70,12 +74,12 @@ def _deduplicate_layer(lines, tolerance, progress_bar, keep_duplicates):
 )
 @vp.global_processor
 def deduplicate(
-    document: vp.Document,
+    document: Document,
     tolerance: float,
     progress_bar: bool,
     layer: Union[int, List[int]],
     keep_duplicates: bool,
-) -> vp.Document:
+) -> Document:
     """Remove duplicate lines."""
 
     layer_ids = multiple_to_layer_ids(layer, document)
