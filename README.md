@@ -30,7 +30,7 @@ You can keep removed lines in a separate layer with `-k` flag:
 vpype read squares.svg deduplicate -k write squares_dedup.svg
 ```
 
-<img src="img/squares_dedup_output.png" width="70%">
+<img src="img/squares_dedup_output.png">
 
 
 
