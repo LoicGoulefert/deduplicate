@@ -20,6 +20,7 @@ setup(
     install_requires=[
         'click',
         'vpype',
+        'tqdm==4.61.1',
     ],
     entry_points='''
             [vpype.plugins]
