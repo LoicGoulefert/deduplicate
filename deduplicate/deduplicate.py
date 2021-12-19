@@ -1,12 +1,13 @@
-from typing import List, Union, Tuple
+from typing import List, Tuple, Union
+
 import click
-import vpype as vp
 import numpy as np
-from vpype import LengthType
-from vpype.layers import multiple_to_layer_ids
-from vpype.model import LineCollection, Document
+import vpype as vp
 from shapely.geometry import MultiLineString
 from tqdm import tqdm
+from vpype import LengthType
+from vpype.layers import multiple_to_layer_ids
+from vpype.model import Document, LineCollection
 
 
 def _deduplicate_layer(
@@ -23,7 +24,7 @@ def _deduplicate_layer(
 
     lc = LineCollection()
     removed_lines = LineCollection()
-    line_arr = np.array([np.array(line) for line in split_lines.as_mls()])
+    line_arr = np.array([np.array(line.coords) for line in split_lines.as_mls().geoms])
     mask = np.zeros(len(line_arr), dtype=bool)
 
     for i, line in enumerate(tqdm(line_arr[:-1], disable=progress_bar)):
