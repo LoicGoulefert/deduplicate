@@ -3,27 +3,25 @@ from typing import List, Tuple, Union
 import click
 import numpy as np
 import vpype as vp
+import vpype_cli
 from shapely.geometry import MultiLineString
 from tqdm import tqdm
-from vpype import LengthType
-from vpype.layers import multiple_to_layer_ids
-from vpype.model import Document, LineCollection
 
 
 def _deduplicate_layer(
-    lines: LineCollection, tolerance: float, progress_bar: bool, keep_duplicates: bool
-) -> Tuple[LineCollection, LineCollection]:
+    lines: vp.LineCollection, tolerance: float, progress_bar: bool, keep_duplicates: bool
+) -> Tuple[vp.LineCollection, vp.LineCollection]:
     """Deduplicate lines of a single layer."""
 
     # Splitall lines into segments
-    split_lines = LineCollection()
+    split_lines = vp.LineCollection()
     for line in lines:
         split_lines.extend(
             [line[i : i + 2] for i in range(len(line) - 1) if line[i] != line[i + 1]]
         )
 
-    lc = LineCollection()
-    removed_lines = LineCollection()
+    lc = vp.LineCollection()
+    removed_lines = vp.LineCollection()
     line_arr = np.array([np.array(line.coords) for line in split_lines.as_mls().geoms])
     mask = np.zeros(len(line_arr), dtype=bool)
 
@@ -52,7 +50,7 @@ def _deduplicate_layer(
 @click.option(
     "-t",
     "--tolerance",
-    type=LengthType(),
+    type=vpype_cli.LengthType(),
     default="0.01mm",
     help="Max distance between points to consider them equal (default: 0.01mm)",
 )
@@ -62,7 +60,7 @@ def _deduplicate_layer(
 @click.option(
     "-l",
     "--layer",
-    type=vp.LayerType(accept_multiple=True),
+    type=vpype_cli.LayerType(accept_multiple=True),
     default="all",
     help="Target layer(s) (defaul: 'all')",
 )
@@ -73,17 +71,17 @@ def _deduplicate_layer(
     default=False,
     help="(flag) Keep removed duplicates in a separate layer",
 )
-@vp.global_processor
+@vpype_cli.global_processor
 def deduplicate(
-    document: Document,
+    document: vp.Document,
     tolerance: float,
     progress_bar: bool,
     layer: Union[int, List[int]],
     keep_duplicates: bool,
-) -> Document:
+) -> vp.Document:
     """Remove duplicate lines."""
 
-    layer_ids = multiple_to_layer_ids(layer, document)
+    layer_ids = vpype_cli.multiple_to_layer_ids(layer, document)
     new_document = document.empty_copy()
     removed_layer_id = document.free_id()
 
