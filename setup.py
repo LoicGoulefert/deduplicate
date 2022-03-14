@@ -1,6 +1,5 @@
 from setuptools import setup
 
-
 with open("README.md") as f:
     readme = f.read()
 
@@ -18,12 +17,12 @@ setup(
     license=license,
     packages=["deduplicate"],
     install_requires=[
-        'click',
-        'vpype',
-        'tqdm==4.61.1',
+        "click",
+        "vpype>=1.9, <2.0",
+        "tqdm==4.61.1",
     ],
-    entry_points='''
+    entry_points="""
             [vpype.plugins]
             deduplicate=deduplicate.deduplicate:deduplicate
-        ''',
+        """,
 )
