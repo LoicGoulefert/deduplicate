@@ -43,7 +43,7 @@ Here is what `vpype read tangent_circles.svg deduplicate -k -t 0.2mm show` outpu
 
 ## Installation
 
-See the [installation instructions](https://vpype.readthedocs.io/en/stable/install.html) for information on how
+See the [installation instructions](https://vpype.readthedocs.io/en/latest/install.html) for information on how
 to install `vpype`.
 
 
