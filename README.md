@@ -52,13 +52,13 @@ to install `vpype`.
 If *vpype* was installed using pipx, use the following command:
 
 ```bash
-$ pipx inject vpype git+https://github.com/LoicGoulefert/deduplicate
+$ pipx inject vpype deduplicate
 ```
 
 If *vpype* was installed using pip in a virtual environment, activate the virtual environment and use the following command:
 
 ```bash
-$ pip install git+https://github.com/LoicGoulefert/deduplicate.git#egg=deduplicate
+$ pip install deduplicate
 ```
 
 Check that your install is successful:
