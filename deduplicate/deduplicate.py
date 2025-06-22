@@ -84,6 +84,11 @@ def deduplicate(
     layer_ids = vpype_cli.multiple_to_layer_ids(layer, document)
     new_document = document.empty_copy()
     removed_layer_id = document.free_id()
+    
+    if layer != "all":
+        for l_id in document.layers:
+            if l_id not in layer_ids:
+                new_document.add(document.layers[l_id], layer_id=l_id)
 
     for lines, l_id in zip(document.layers_from_ids(layer_ids), layer_ids):
         new_lines, removed_lines = _deduplicate_layer(
